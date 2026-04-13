@@ -29,4 +29,11 @@ resource "scaleway_instance_security_group" "kiwinet_web" {
     port     = 443
     protocol = "TCP"
   }
+
+  # ── SSH standard (temporaire — accès initial) ─
+  inbound_rule {
+    action   = "accept"
+    port     = 22
+    protocol = "TCP"
+  }
 }
