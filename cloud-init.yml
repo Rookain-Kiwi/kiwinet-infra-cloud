@@ -1,0 +1,56 @@
+#cloud-config
+# ─────────────────────────────────────────────
+# cloud-init.yml — kiwinet-infra-cloud
+# Bootstrap : hardening SSH + Docker + kiwinet-web
+# ─────────────────────────────────────────────
+
+# ── Utilisateur dédié ─────────────────────────
+users:
+  - name: kiwinet
+    groups: [sudo, docker]
+    shell: /bin/bash
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    ssh_authorized_keys:
+      - ${ssh_public_key}
+
+# ── Packages ──────────────────────────────────
+packages:
+  - fail2ban
+  - ufw
+  - curl
+  - ca-certificates
+  - gnupg
+
+package_update: true
+package_upgrade: true
+
+# ── Docker ────────────────────────────────────
+runcmd:
+  # Installation Docker
+  - install -m 0755 -d /etc/apt/keyrings
+  - curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+  - chmod a+r /etc/apt/keyrings/docker.gpg
+  - echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian $(. /etc/os-release && echo $VERSION_CODENAME) stable" > /etc/apt/sources.list.d/docker.list
+  - apt-get update
+  - apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+
+  # Hardening SSH — port non-standard + désactivation root
+  - sed -i 's/^#\?Port .*/Port 2222/' /etc/ssh/sshd_config
+  - sed -i 's/^#\?PermitRootLogin .*/PermitRootLogin no/' /etc/ssh/sshd_config
+  - sed -i 's/^#\?PasswordAuthentication .*/PasswordAuthentication no/' /etc/ssh/sshd_config
+  - systemctl restart sshd
+
+  # Firewall UFW
+  - ufw allow 2222/tcp
+  - ufw allow 80/tcp
+  - ufw allow 443/tcp
+  - ufw --force enable
+
+  # Fail2ban
+  - systemctl enable fail2ban
+  - systemctl start fail2ban
+
+  # Déploiement kiwinet-web
+  - mkdir -p /opt/kiwinet-web
+  - docker pull ghcr.io/rookain-kiwi/kiwinet-web:latest
+  - docker run -d --name kiwinet-web --restart unless-stopped -p 80:80 -p 443:443 ghcr.io/rookain-kiwi/kiwinet-web:latest
