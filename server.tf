@@ -23,7 +23,9 @@ resource "scaleway_instance_server" "kiwinet_web" {
   ip_id             = scaleway_instance_ip.public.id
 
   user_data = {
-    cloud-init = file("${path.module}/cloud-init.yml")
+    cloud-init = templatefile("${path.module}/cloud-init.yml", {
+      ssh_public_key = var.ssh_public_key
+    })
   }
 
   tags = ["kiwinet", "web", "terraform"]
