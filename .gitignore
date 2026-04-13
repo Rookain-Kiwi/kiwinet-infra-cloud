@@ -1,0 +1,23 @@
+# ─────────────────────────────────────────────
+# .gitignore — kiwinet-infra-cloud
+# ─────────────────────────────────────────────
+
+# State Terraform — contient les secrets et l'état réel de l'infrastructure
+terraform.tfstate
+terraform.tfstate.backup
+
+# Variables sensibles — clé API Scaleway, clé SSH
+terraform.tfvars
+*.tfvars
+!terraform.tfvars.example
+
+# Répertoire de travail Terraform
+.terraform/
+.terraform.lock.hcl
+
+# Fichiers de crash Terraform
+crash.log
+crash.*.log
+
+# Fichiers système
+.DS_Store
