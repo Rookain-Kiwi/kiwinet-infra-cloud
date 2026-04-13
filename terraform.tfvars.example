@@ -1,0 +1,16 @@
+# ─────────────────────────────────────────────
+# terraform.tfvars.example — kiwinet-infra-cloud
+# Copier ce fichier en terraform.tfvars et renseigner les valeurs
+# terraform.tfvars est gitignore — ne jamais le commiter
+# ─────────────────────────────────────────────
+
+scw_access_key = "SCW_ACCESS_KEY_ICI"
+scw_secret_key = "SCW_SECRET_KEY_ICI"
+scw_project_id = "PROJECT_ID_ICI"
+
+instance_type  = "STARDUST1-S"
+instance_image = "debian_bookworm"
+instance_name  = "kiwinet-web"
+
+ssh_public_key = "ssh-ed25519 AAAA... kiwinet_deploy"
+ssh_port       = 2222
