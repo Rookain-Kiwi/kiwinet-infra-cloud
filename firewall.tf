@@ -29,4 +29,5 @@ resource "scaleway_instance_security_group" "kiwinet_web" {
     port     = 443
     protocol = "TCP"
   }
+
 }

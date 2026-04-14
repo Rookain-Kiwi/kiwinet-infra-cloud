@@ -1,0 +1,12 @@
+#cloud-config
+# ─────────────────────────────────────────────
+# cloud-init.yml — kiwinet-infra-cloud
+# Bootstrap minimal — provisioning SSH uniquement
+# Hardening et déploiement délégués à Ansible (kiwinet-infra-vm)
+# ─────────────────────────────────────────────
+
+package_update: true
+
+packages:
+  - curl
+  - ca-certificates
