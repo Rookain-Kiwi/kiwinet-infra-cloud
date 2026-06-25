@@ -30,4 +30,11 @@ resource "scaleway_instance_security_group" "kiwinet_web" {
     protocol = "TCP"
   }
 
+  # ── PostgreSQL (depuis Freebox VM) ──────────
+  inbound_rule {
+    action   = "accept"
+    port     = 5432
+    protocol = "TCP"
+    ip_range = "82.67.126.108/32"
+  }
 }

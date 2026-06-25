@@ -12,3 +12,13 @@ output "instance_id" {
   description = "Identifiant de l'instance Scaleway"
   value       = scaleway_instance_server.kiwinet_web.id
 }
+
+output "block_volume_id" {
+  description = "Block storage volume ID — 50 Go pour PostgreSQL et services"
+  value       = scaleway_block_volume.data.id
+}
+
+output "block_volume_size_gb" {
+  description = "Block storage volume size in GB"
+  value       = scaleway_block_volume.data.size_in_gb
+}

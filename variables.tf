@@ -70,3 +70,16 @@ variable "ssh_port" {
   type        = number
   default     = 2222
 }
+# ── PostgreSQL (Database Services) ────────────
+
+variable "postgres_root_password" {
+  description = "PostgreSQL root password (64+ characters)"
+  type        = string
+  sensitive   = true
+}
+
+variable "postgres_synapse_password" {
+  description = "PostgreSQL synapse user password (64+ characters)"
+  type        = string
+  sensitive   = true
+}

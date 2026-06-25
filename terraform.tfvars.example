@@ -14,3 +14,7 @@ instance_name  = "kiwinet-web"
 
 ssh_public_key = "ssh-ed25519 AAAA... kiwinet_deploy"
 ssh_port       = 2222
+# ── PostgreSQL Passwords (Database Services) ──────────────────
+# Générer avec: python3 -c "import secrets; print(secrets.token_urlsafe(48))"
+postgres_root_password    = "ROOT_PASSWORD_64CHARS_ICI"
+postgres_synapse_password = "SYNAPSE_PASSWORD_64CHARS_ICI"
